@@ -62,10 +62,10 @@ After deployment terraform will automatically check the status of the service to
 The ultimate result from Terraform yields the public IP. Execute a cURL command using that IP.
 ```
 data.http.my_app_service: Reading...
-data.http.my_app_service: Read complete after 0s [id=http://35.223.191.68/]
+data.http.my_app_service: Read complete after 0s [id=http://PUBLIC_IP/]
 
 Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
-$ curl http://35.223.191.68/
+$ curl http://PUBLIC_IP/
 {
   "message": "Automate all the things!",
   "timestamp": 1699943619
