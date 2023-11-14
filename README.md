@@ -7,7 +7,7 @@ $ git clone https://github.com/darenjacobs/k8s_flask_app.git
 $ pip3 install flask
 $ python3 app.py
 
-visit http://127.0.0.1:5000/get_message in your web browser
+visit http://127.0.0.1:5000/ in your web browser
 ```
 
 ### INSTALL TERRAFORM
