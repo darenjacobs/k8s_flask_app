@@ -50,3 +50,25 @@ $ terraform apply
 
 ### AUTOMATED TESTING
 After deployment terraform will automatically check the status of the service to validate that it returns a 200 response
+
+
+
+### USE THE APP
+The final output of the terraform provides the public IP.  Curl that IP
+```
+data.http.my_app_service: Reading...
+data.http.my_app_service: Read complete after 0s [id=http://35.223.191.68/]
+
+Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
+$ curl http://35.223.191.68/
+{
+  "message": "Automate all the things!",
+  "timestamp": 1699943619
+}
+```
+
+
+### DELETE THE APP & CLUSTER
+```console
+$ terraform destroy
+```
