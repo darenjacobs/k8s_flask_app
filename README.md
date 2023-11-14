@@ -16,8 +16,8 @@ Please note:
 * If not you may need to install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install).
 * To run the Flask locally, Python3 is required.
 
+Edit line 2 of main.tf to point it to the location of your credentials file.
 
-Edit line 2 of main.tf to point it to the location of your credentials file
 Edit line 3 of main.tf entering your GCP project
 
 ### RUN THE FLASK APP LOCALLY
