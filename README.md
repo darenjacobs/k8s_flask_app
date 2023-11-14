@@ -11,8 +11,11 @@ Written in Python app.py listens on port 5000 to display the JSON text:
 
 # USER GUIDE
 
-### RUN LOCALLY
+Please note: It is assumed that you possess a Google Cloud Platform (GCP) account and have the necessary access to the GCP API.
+If not you may need to install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 
+### RUN THE FLASK APP LOCALLY
+This simulates an on-premises installation
 ```console
 $ git clone https://github.com/darenjacobs/k8s_flask_app.git
 $ pip3 install flask
@@ -26,7 +29,8 @@ visit http://127.0.0.1:5000/ in your web browser
 $ bash launch.sh
 ```
 
-Run the script launch.sh which performs the PREREQUISITES and CLOUD DEPLOYMENT
+Running the script launch.sh performs the PREREQUISITES and CLOUD DEPLOYMENT
+
 
 
 ### PREREQUISITES
