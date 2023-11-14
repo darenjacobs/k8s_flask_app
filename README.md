@@ -21,6 +21,14 @@ $ python3 app.py
 visit http://127.0.0.1:5000/ in your web browser
 
 
+### SINGLE COMMAND
+```console
+$ bash launch.sh
+```
+
+Run the script launch.sh which performs the PREREQUISITES and CLOUD DEPLOYMENT
+
+
 ### PREREQUISITES
 ```console
 $ brew tap hashicorp/tap
