@@ -1,5 +1,5 @@
 provider "google" {
-  credentials = file("/Users/djacobs/.config/gcloud/application_default_credentials.json")
+  credentials = file("~/.config/gcloud/application_default_credentials.json")
   project     = "intense-vault-200013"
   region      = "us-central1"
 }
