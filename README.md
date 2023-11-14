@@ -11,8 +11,14 @@ Written in Python app.py listens on port 5000 to display the JSON text:
 
 # USER GUIDE
 
-Please note: It is assumed that you possess a Google Cloud Platform (GCP) account and have the necessary access to the GCP API.
-If not you may need to install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
+Please note:
+* It is assumed that you possess a Google Cloud Platform (GCP) account and have the necessary access to the GCP API.
+* If not you may need to install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install).
+* To run the Flask locally, Python3 is required.
+
+
+Edit line 2 of main.tf to point it to the location of your credentials file
+Edit line 3 of main.tf entering your GCP project
 
 ### RUN THE FLASK APP LOCALLY
 This simulates an on-premises installation
@@ -42,7 +48,6 @@ $ gcloud components install gke-gcloud-auth-plugin
 
 ### CLOUD DEPLOYMENT
 
-edit line 2 of main.tf to point it to the location of your credentials file
 ```console
 $ terraform init
 $ terraform apply
