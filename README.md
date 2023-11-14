@@ -54,7 +54,7 @@ After deployment terraform will automatically check the status of the service to
 
 
 ### USE THE APP
-The final output of the terraform provides the public IP.  Curl that IP
+The ultimate result from Terraform yields the public IP. Execute a cURL command using that IP.
 ```
 data.http.my_app_service: Reading...
 data.http.my_app_service: Read complete after 0s [id=http://35.223.191.68/]
