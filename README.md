@@ -58,7 +58,7 @@ $ terraform apply
 ```
 
 ### AUTOMATED TESTING
-After deployment terraform will automatically check the status of the service to validate that it returns a 200 response
+After deployment Terraform will automatically check the status of the service to validate that it returns a 200 response
 
 
 
