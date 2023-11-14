@@ -70,5 +70,5 @@ $ curl http://35.223.191.68/
 
 ### DELETE THE APP & CLUSTER
 ```console
-$ terraform destroy
+$ terraform destroy -auto-approve
 ```
