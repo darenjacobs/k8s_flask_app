@@ -1,5 +1,16 @@
 # Kubernetes Liatrio web service submission
 
+### FLASK APP
+```
+Written in Python app.py listens on port 5000 to display the JSON text:
+{
+“message”: “Automate all the things!”,
+“timestamp”: 1529729125
+}
+```
+
+# USER GUIDE
+
 ### RUN LOCALLY
 
 ```console
