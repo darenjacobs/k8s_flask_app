@@ -2,7 +2,7 @@
 
 ### FLASK APP
 ```
-Written in Python app.py listens on port 5000 to display the JSON text:
+Written in Python app.py listens on port 8080 to display the JSON text:
 {
 “message”: “Automate all the things!”,
 “timestamp”: 1529729125
@@ -31,7 +31,7 @@ This simulates an on-premises installation
 $ pip3 install flask
 $ python3 app.py
 ```
-visit http://127.0.0.1:5000/ in your web browser
+visit http://127.0.0.1:8080/ in your web browser
 
 
 ### SINGLE COMMAND
