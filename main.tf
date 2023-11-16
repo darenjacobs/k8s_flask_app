@@ -59,7 +59,7 @@ resource "kubernetes_deployment" "my_app" {
           name  = "my-app"
           image = "darenjacobs/flask-app:latest"
           port {
-            container_port = 5000
+            container_port = 8080
           }
         }
       }
@@ -81,7 +81,7 @@ resource "kubernetes_service" "my_app_service" {
     port {
       protocol    = "TCP"
       port        = 80
-      target_port = 5000
+      target_port = 8080
     }
   }
 }
