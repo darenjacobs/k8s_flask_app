@@ -73,21 +73,31 @@ jobs:
 
 
   deploy:
-    # needs: [build]
+    needs: [build]
     runs-on: ubuntu-latest
     env:
-      AWS_DEFAULT_REGION: "us-west-2"
+      AWS_DEFAULT_REGION: "us-east-2"
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
+    
       - name: Create credentials file
         run: |
           mkdir -p ~/.aws
           echo "[default]" >> ~/.aws/credentials
           echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY }}" >> ~/.aws/credentials
           echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_KEY }}" >> ~/.aws/credentials
+      
+      - name: Install AWS CLI
+        id: install-aws-cli
+        uses: unfor19/install-aws-cli-action@v1
+        with:
+          version: 2     # default
+          verbose: false # default
+          arch: amd64    # allowed values: amd64, arm64
+          rootdir: ""    # defaults to "PWD"
+          workdir: ""    # defaults to "PWD/unfor19-awscli"
 
       # Terraform
       - name: Install Terraform
