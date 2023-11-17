@@ -4,134 +4,92 @@ name: Python package
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "aws" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "aws" ]
 
 jobs:
-  run_test:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        python-version: ["3.11"]
+ run_test:
+   runs-on: ubuntu-latest
+   strategy:
+     fail-fast: false
+     matrix:
+       python-version: ["3.11"]
 
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v3
-      with:
-        python-version: ${{ matrix.python-version }}
+   steps:
+   - uses: actions/checkout@v3
+   - name: Set up Python ${{ matrix.python-version }}
+     uses: actions/setup-python@v3
+     with:
+       python-version: ${{ matrix.python-version }}
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install flake8 pytest flask coverage pytest-custom_exit_code
-        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Lint with flake8
-      run: |
-        # stop the build if there are Python syntax errors or undefined names
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Test with pytest
-      run: |
-        pytest --suppress-no-test-exit-code
-    - name: Run the app
-      run: |
-        python app/app.py &
-    - name: Connect to the App
-      run: |
-        curl http://127.0.0.1:8080
-      shell: bash
+   - name: Install dependencies
+     run: |
+       python -m pip install --upgrade pip
+       python -m pip install flake8 pytest flask coverage pytest-custom_exit_code
+       if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+   - name: Lint with flake8
+     run: |
+       # stop the build if there are Python syntax errors or undefined names
+       flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+       # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+       flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+   - name: Test with pytest
+     run: |
+       pytest --suppress-no-test-exit-code
+   - name: Run the app
+     run: |
+       python app/app.py &
+   - name: Connect to the App
+     run: |
+       curl http://127.0.0.1:8080
+     shell: bash
 
 
-  build:
-    needs: [run_test]
-    runs-on: ubuntu-latest
-    env:
-      LOGIN: ${{ secrets.DOCKER_USERNAME }}
-      NAME: ${{ secrets.DOCKER_NAME }}
+ build:
+   needs: [run_test]
+   runs-on: ubuntu-latest
+   env:
+     LOGIN: ${{ secrets.DOCKER_USERNAME }}
+     NAME: ${{ secrets.DOCKER_NAME }}
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+   steps:
+     - name: Checkout repository
+       uses: actions/checkout@v3
+     - name: Login to Docker Hub
+       uses: docker/login-action@v3
+       with:
+         username: ${{ secrets.DOCKER_USERNAME }}
+         password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build and push Docker Version
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          # tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:latest, ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:${{ github.run_number }}
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:latest
+     - name: Build and push Docker Version
+       uses: docker/build-push-action@v3
+       with:
+         context: .
+         file: ./Dockerfile
+         push: true
+         # tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:latest, ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:${{ github.run_number }}
+         tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:latest
 
 
   deploy:
     # needs: [build]
     runs-on: ubuntu-latest
     env:
-      PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
+      AWS_DEFAULT_REGION: "us-west-2"
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Authenticate to Google Cloud
-        id: authg
-        uses: 'google-github-actions/auth@v1'
-        with:
-          credentials_json: '${{ secrets.SA_CREDENTIALS }}'
-          project_id: ${{ secrets.GKE_PROJECT_ID }}
-
-      - name: Install Google Cloud Auth Plugin
-        uses: simenandre/setup-gke-gcloud-auth-plugin@v1
-
-      - name: Install the Google Cloud CLI
-        uses: google-github-actions/setup-gcloud@v0
-        with:
-          project_id: ${{ secrets.GKE_PROJECT_ID }}
-          export_default_credentials: true
-
-      - name: Check If the GKE Cluster Exists
+      - name: Create credentials file
         run: |
-          gcloud container clusters get-credentials my-cluster --region us-central1 2>&1 | tee output.txt
-
-      - name: Delete the GKE Cluster if it Exists
-        if: always()
-        run: |
-          var=$(cat output.txt)
-          if [[ "${var}" =~ "ubeconfig" ]]; then echo "***DELETING GKE CLUSTER***: my-cluster"; gcloud container clusters delete my-cluster --region us-central1 --quiet; fi
-        shell: bash
-
-      # - name: Cancel "deploy" if the GKE Cluster Exists
-      #   if: always()
-      #   run: |
-      #     var=$(cat output.txt)
-      #     if [[ "${var}" =~ "ubeconfig" ]]; then \
-      #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"; \
-      #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"; \
-      #       echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check; \
-      #       sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl; \
-      #       chmod +x kubectl; \
-      #       mkdir -p ~/.local/bin; \
-      #       mv ./kubectl ~/.local/bin/kubectl; \
-      #       echo "*** Kubernetes Cluster Already Exists ***"; endpoint=$(kubectl get svc | grep service |awk '{print $4}'); echo "Endpoint is http://${endpoint}/"; exit 1;  fi
-      #   shell: bash
+          mkdir -p ~/.aws
+          echo "[default]" >> ~/.aws/credentials
+          echo "aws_access_key_id = ${{ secrets.AWS_ACCESS_KEY }}" >> ~/.aws/credentials
+          echo "aws_secret_access_key = ${{ secrets.AWS_SECRET_KEY }}" >> ~/.aws/credentials
 
       # Terraform
-      - name: Create Credentials JSON file # Create Credentials file for Google provider
-        run: |
-          mkdir -p ~/.config/gcloud/;
-          cp ${{ env.GOOGLE_APPLICATION_CREDENTIALS }} ~/.config/gcloud/application_default_credentials.json
-          cat ~/.config/gcloud/application_default_credentials.json
-        shell: bash
-
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
 
