@@ -1,4 +1,4 @@
-# Kubernetes Liatrio web service submission
+# Kubernetes web service submission
 
 ### FLASK APP
 ```
