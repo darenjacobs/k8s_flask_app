@@ -1,4 +1,4 @@
-# Kubernetes web service submission
+# Kubernetes Flask App
 
 ### FLASK APP
 ```
