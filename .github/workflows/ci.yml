@@ -73,7 +73,7 @@ jobs:
 
 
   deploy:
-    # needs: [build]
+    needs: [build]
     runs-on: ubuntu-latest
     env:
       PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
