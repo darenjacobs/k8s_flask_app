@@ -11,3 +11,4 @@ kubectl delete svc my-app-service
 
 echo "Deleting Kubernetes Cluster: 'my-cluster'"
 eksctl delete cluster --name my-cluster --region us-east-1
+aws kms delete-alias --region us-east-1  --alias-name alias/eks/my-cluster

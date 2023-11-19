@@ -9,7 +9,13 @@ if ! [[ "${is_terraform}" =~ "terraform" ]]; then
   brew install hashicorp/tap/terraform
 fi
 
+# Push to Docker Hub
+docker login
+docker build -t darenjacobs/flask-app .
+docker image tag flask-app darenjacobs/flask-app:latest
+docker push darenjacobs/flask-app:latest
+
 # Run terraform
 terraform init
 terraform plan -out sample.plan
-terraform apply "sample.plan" -auto-approve
+terraform apply -auto-approve "sample.plan"

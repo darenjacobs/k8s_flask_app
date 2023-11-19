@@ -99,6 +99,21 @@ jobs:
           rootdir: ""    # defaults to "PWD"
           workdir: ""    # defaults to "PWD/unfor19-awscli"
 
+      - name: Install Eksctl
+        uses: moia-oss/setup-eksctl@v1
+
+      - name: Check if the Cluster Exists
+        run: |
+          aws eks update-kubeconfig --region us-east-1 --name my-cluster 2>&1 | tee output.txt
+
+      - name: Delete the Cluster if it Exists
+        if: always():
+        shell: bash
+        run: |
+          var=$(cat output.txt)
+          if ! [[ "${var}" =~ "error" ]]; then echo "***DELETING EKS CLUSTER***: my-cluster"; eksctl delete cluster --name my-cluster --region us-east-1; aws kms delete-alias --region us-east-1  --alias-name alias/eks/my-cluster; fi
+
+
       # Terraform
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
@@ -119,3 +134,22 @@ jobs:
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve sample.plan
+
+      - name: Install Kubectl
+        shell: bash
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+          echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+          chmod +x kubectl
+          mkdir -p ~/.local/bin
+          mv ./kubectl ~/.local/bin/kubectl
+          export PATH="$HOME/.local/bin:$PATH"
+
+      - name: Additional Automated Test
+        shell: bash
+        run: |
+          aws eks update-kubeconfig --region us-east-1 --name my-cluster
+          kubectl get nodes
+          bash page_test.sh
