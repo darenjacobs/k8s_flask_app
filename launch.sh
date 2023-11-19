@@ -1,5 +1,19 @@
 #!/bin/sh
 
+
+# Install SDK
+is_gcloud=$(which gcloud)
+if ! [[ "${is_gcloud}" =~ "gcloud" ]]; then
+  curl -o ~/Downloads/google-cloud-cli-455.0.0-darwin-x86_64.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-455.0.0-darwin-x86_64.tar.gz
+  ~/Downloads/google-cloud-sdk/install.sh
+  ~/Downloads/google-cloud-sdk/bin/gcloud init
+fi
+
+## # Install gke-gcloud-auth-plugin
+## gcloud auth application-default login
+## gcloud components install gke-gcloud-auth-plugin
+## gcloud config set project ${GKE_PROJECT_ID}
+
 # check for terraform
 is_terraform=$(which terraform)
 
@@ -9,8 +23,6 @@ if ! [[ "${is_terraform}" =~ "terraform" ]]; then
   brew install hashicorp/tap/terraform
 fi
 
-# Install gke-gcloud-auth-plugin
-gcloud components install gke-gcloud-auth-plugin
 
 # Run terraform
 terraform init

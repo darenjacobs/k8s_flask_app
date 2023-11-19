@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Export env var to run kubectl
-export KUBECONFIG="./kubeconfig"
+# Get Kubeconfig
+gcloud container clusters get-credentials my-cluster --region us-central1
 
 # GET K8s service endpoint
 endpoint=$(kubectl get service |grep my-app-service |awk '{ print $4 }')
