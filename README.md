@@ -97,13 +97,13 @@ DOCKER_USERNAME - your dockerhub username
 DOCKER_PASSWORD - your dockerhub password
 
 Cloud Provider Secrets:
-GKE (Enable Google Kubernetes Engine API):
-- GKE_PROJECT_ID - GKE project ID
-- SA_CREDENTIAL: JSON credentials for the service account with at least "Kubernetes Engine Developer" permissions
+GCP:
+ - GKE_PROJECT_ID - GKE project ID
+ - SA_CREDENTIAL: JSON credentials for the service account with at least "Kubernetes Engine Developer" permissions
 
 AWS:
-- AWS_ACCESS_KEY - Access Key ID to service account with permissions to create an EKS cluster
-- AWS_SECRET_KEY - Secret Access key to a service account with permissions to create an EKS  cluster
+ - AWS_ACCESS_KEY - Access Key ID to service account with permissions to create an EKS cluster
+ - AWS_SECRET_KEY - Secret Access key to a service account with permissions to create an EKS  cluster
 
-Azure;
-- AZURE_CREDENTIAL - Service Principal credentials with contributor access to your subscription
+Azure:
+ - AZURE_CREDENTIAL - Service Principal credentials with contributor access to your subscription

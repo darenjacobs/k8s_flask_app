@@ -149,7 +149,7 @@ jobs:
           mv ./kubectl ~/.local/bin/kubectl
           export PATH="$HOME/.local/bin:$PATH"
 
-      - name: Get K8s credentials
+      - name: Additional Automated Test
         shell: bash
         run: |
           gcloud container clusters get-credentials my-cluster --region us-central1
