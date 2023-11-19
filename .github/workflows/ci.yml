@@ -4,9 +4,9 @@ name: Python package
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "azure" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "azure" ]
 
 jobs:
   run_test:
@@ -73,65 +73,38 @@ jobs:
 
 
   deploy:
-    # needs: [build]
+    needs: [build]
     runs-on: ubuntu-latest
-    env:
-      PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Authenticate to Google Cloud
-        id: authg
-        uses: 'google-github-actions/auth@v1'
+      - name: Azure Login
+        uses: azure/login@v1
         with:
-          credentials_json: '${{ secrets.SA_CREDENTIALS }}'
-          project_id: ${{ secrets.GKE_PROJECT_ID }}
-
-      - name: Install Google Cloud Auth Plugin
-        uses: simenandre/setup-gke-gcloud-auth-plugin@v1
-
-      - name: Install the Google Cloud CLI
-        uses: google-github-actions/setup-gcloud@v0
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Azure CLI script
+        uses: azure/CLI@v1
         with:
-          project_id: ${{ secrets.GKE_PROJECT_ID }}
-          export_default_credentials: true
-
-      - name: Check If the GKE Cluster Exists
+          azcliversion: 2.30.0
+          inlineScript: |
+              az account show
+      
+      - name: Check If the Cluster Exists
+        shell: bash
         run: |
-          gcloud container clusters get-credentials my-cluster --region us-central1 2>&1 | tee output.txt
+          az aks list --query "[].{Name:name, Power:powerState.code}" -o table 2>&1 | tee output.txt
 
-      - name: Delete the GKE Cluster if it Exists
+      - name: Delete the Cluster if it Exists
         if: always()
         run: |
           var=$(cat output.txt)
-          if [[ "${var}" =~ "ubeconfig" ]]; then echo "***DELETING GKE CLUSTER***: my-cluster"; gcloud container clusters delete my-cluster --region us-central1 --quiet; fi
+          if [[ "${var}" =~ "my-cluster" ]]; then echo "***DELETING CLUSTER***: my-cluster"; az aks delete --name my-cluster --resource-group my-resource-group --yes; sleep 10; az group delete --name my-resource-group --yes; fi
         shell: bash
-
-      # - name: Cancel "deploy" if the GKE Cluster Exists
-      #   if: always()
-      #   run: |
-      #     var=$(cat output.txt)
-      #     if [[ "${var}" =~ "ubeconfig" ]]; then \
-      #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"; \
-      #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"; \
-      #       echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check; \
-      #       sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl; \
-      #       chmod +x kubectl; \
-      #       mkdir -p ~/.local/bin; \
-      #       mv ./kubectl ~/.local/bin/kubectl; \
-      #       echo "*** Kubernetes Cluster Already Exists ***"; endpoint=$(kubectl get svc | grep service |awk '{print $4}'); echo "Endpoint is http://${endpoint}/"; exit 1;  fi
-      #   shell: bash
-
+        
       # Terraform
-      - name: Create Credentials JSON file # Create Credentials file for Google provider
-        run: |
-          mkdir -p ~/.config/gcloud/;
-          cp ${{ env.GOOGLE_APPLICATION_CREDENTIALS }} ~/.config/gcloud/application_default_credentials.json
-          cat ~/.config/gcloud/application_default_credentials.json
-        shell: bash
-
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
 
@@ -151,3 +124,12 @@ jobs:
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve sample.plan
+
+      - name: Install Kubectl
+        uses: azure/setup-kubectl@v3
+        id: install
+
+      - name: Set KUBECONFIG
+        run: |
+          export KUBECONFIG="./kubeconfig"
+          kubectl get nodes
