@@ -53,9 +53,6 @@ terraform apply
 ### AUTOMATED TESTING
 After deployment Terraform will automatically check the status of the service to validate that it returns a 200 response
 
-
-
-### USE THE APP
 The ultimate result from Terraform yields the public IP. Execute a curl command using that IP.
 data.http.my_app_service: Reading...
 data.http.my_app_service: Read complete after 0s [id=http://PUBLIC_IP/]
@@ -67,7 +64,7 @@ $ curl http://PUBLIC_IP/
   "timestamp": 1699943619
 }
 
-### TEST ENDPOINT
+### MANUALLY TEST ENDPOINT
 ```console
 bash page_test.sh
 ```
@@ -78,7 +75,7 @@ terraform destroy -auto-approve
 ```
 
 
-## AZURE CI / CD PIPELINE
+## CI / CD PIPELINE
 Any commits to the branch will start the pipeline which will test the app, deploy the app to Docker Hub, create a K8s
 cluster in the respective Cloud provider, and deploy the app to the cluster.
 
