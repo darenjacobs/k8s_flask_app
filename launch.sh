@@ -22,4 +22,4 @@ fi
 # Run Terraform
 terraform init
 terraform plan -out sample.plan
-terraform apply "sample.plan" -auto-approve
+terraform apply -auto-approve "sample.plan"
