@@ -1,6 +1,16 @@
 #!/bin/sh
 
-# check for terraform
+# Login to Azure
+is_azcli=$(which az)
+
+if ! [[ "${is_azcli}" =~ "az" ]]; then
+  echo "Azure CLI not found, Installing Azure CLI"
+  brew install azure-cli
+fi
+az login
+
+
+# check for Terraform
 is_terraform=$(which terraform)
 
 if ! [[ "${is_terraform}" =~ "terraform" ]]; then
@@ -9,13 +19,7 @@ if ! [[ "${is_terraform}" =~ "terraform" ]]; then
   brew install hashicorp/tap/terraform
 fi
 
-# Login to Azure
-az login
-
-# DELETE THIS
-az account set --subscription 8eabaef9-7693-472b-8ee4-6ab9ebfd18ac
-
-# Run terraform
+# Run Terraform
 terraform init
 terraform plan -out sample.plan
 terraform apply "sample.plan" -auto-approve
