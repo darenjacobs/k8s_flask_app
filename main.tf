@@ -23,6 +23,12 @@ data "google_container_cluster" "my_cluster" {
   depends_on = [google_container_cluster.my_cluster]
 }
 
+resource "local_file" "kube_config" {
+  depends_on = [google_container_cluster.my_cluster]
+  filename = "kubeconfig"
+  content = google_container_cluster.my_cluster.master_auth.0.kubeconfig[0].raw_config
+}
+
 provider "kubernetes" {
   host                   = "https://${data.google_container_cluster.my_cluster.endpoint}"
   cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)

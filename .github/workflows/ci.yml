@@ -109,21 +109,6 @@ jobs:
           if [[ "${var}" =~ "ubeconfig" ]]; then echo "***DELETING GKE CLUSTER***: my-cluster"; gcloud container clusters delete my-cluster --region us-central1 --quiet; fi
         shell: bash
 
-      # - name: Cancel "deploy" if the GKE Cluster Exists
-      #   if: always()
-      #   run: |
-      #     var=$(cat output.txt)
-      #     if [[ "${var}" =~ "ubeconfig" ]]; then \
-      #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"; \
-      #       curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"; \
-      #       echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check; \
-      #       sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl; \
-      #       chmod +x kubectl; \
-      #       mkdir -p ~/.local/bin; \
-      #       mv ./kubectl ~/.local/bin/kubectl; \
-      #       echo "*** Kubernetes Cluster Already Exists ***"; endpoint=$(kubectl get svc | grep service |awk '{print $4}'); echo "Endpoint is http://${endpoint}/"; exit 1;  fi
-      #   shell: bash
-
       # Terraform
       - name: Create Credentials JSON file # Create Credentials file for Google provider
         run: |
@@ -151,3 +136,22 @@ jobs:
       - name: Terraform Apply
         id: apply
         run: terraform apply -auto-approve sample.plan
+
+      - name: Install Kubectl
+        shell: bash
+        run: |
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+          echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+          sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+          chmod +x kubectl
+          mkdir -p ~/.local/bin
+          mv ./kubectl ~/.local/bin/kubectl
+          export PATH="$HOME/.local/bin:$PATH"
+
+      - name: Additional Automated Test
+        shell: bash
+        run: |
+          export KUBECONFIG="./kubeconfig"
+          kubectl get nodes
+          bash page_test.sh
