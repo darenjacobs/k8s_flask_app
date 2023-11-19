@@ -16,14 +16,8 @@ Clone this Repository:
 $ git clone https://github.com/darenjacobs/k8s_flask_app.git
 ```
 
-Please note:
-* It is assumed that you possess a Google Cloud Platform (GCP) account and have the necessary access to the GCP API.
-* If not you may need to install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install).
-* To run the Flask locally, Python3 is required.
-
-Edit line 2 of main.tf to point it to the location of your credentials file.
-
-Edit line 3 of main.tf entering your GCP project
+Login to your Azure account
+az login
 
 ### RUN THE FLASK APP LOCALLY
 This simulates an on-premises installation
@@ -47,13 +41,13 @@ Running the script launch.sh performs the PREREQUISITES and CLOUD DEPLOYMENT
 ```console
 $ brew tap hashicorp/tap
 $ brew install hashicorp/tap/terraform
-$ gcloud components install gke-gcloud-auth-plugin
 ```
 
 ### CLOUD DEPLOYMENT
 
 ```console
 $ terraform init
+$ terraform plan
 $ terraform apply
 ```
 
@@ -75,7 +69,6 @@ $ curl http://PUBLIC_IP/
   "timestamp": 1699943619
 }
 ```
-
 
 ### DELETE THE APP & CLUSTER
 ```console
