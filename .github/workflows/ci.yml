@@ -76,7 +76,7 @@ jobs:
     needs: [build]
     runs-on: ubuntu-latest
     env:
-      AWS_DEFAULT_REGION: "us-east-1"
+      AWS_DEFAULT_REGION: "us-east-2"
 
     steps:
       - name: Checkout
@@ -113,7 +113,7 @@ jobs:
 
       - name: Check if the Cluster Exists
         run: |
-          aws eks update-kubeconfig --region us-east-1 --name my-cluster 2>&1 | tee output.txt
+          aws eks update-kubeconfig --region us-east-2 --name my-cluster 2>&1 | tee output.txt
 
       - name: Delete the Cluster if it Exists
         if: always()
@@ -121,8 +121,8 @@ jobs:
         run: |
           var=$(cat output.txt)
           if ! [[ "${var}" =~ "error" ]]; then echo "***DELETING EKS CLUSTER***: my-cluster"; \
-            eksctl delete cluster --name my-cluster --region us-east-1; \
-            aws kms delete-alias --region us-east-1  --alias-name alias/eks/my-cluster; fi
+            eksctl delete cluster --name my-cluster --region us-east-2; \
+            aws kms delete-alias --region us-east-2  --alias-name alias/eks/my-cluster; fi
 
 
       # Terraform
@@ -164,6 +164,6 @@ jobs:
       - name: Additional Automated Test
         shell: bash
         run: |
-          aws eks update-kubeconfig --region us-east-1 --name my-cluster
+          aws eks update-kubeconfig --region us-east-2 --name my-cluster
           kubectl get nodes
           bash page_test.sh
