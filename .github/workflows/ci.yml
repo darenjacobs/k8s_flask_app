@@ -129,7 +129,9 @@ jobs:
         uses: azure/setup-kubectl@v3
         id: install
 
-      - name: Set KUBECONFIG
+      - name: Additional Automated Test
+        shell: bash
         run: |
           export KUBECONFIG="./kubeconfig"
           kubectl get nodes
+          bash page_test.sh
