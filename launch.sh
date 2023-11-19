@@ -9,9 +9,7 @@ if ! [[ "${is_terraform}" =~ "terraform" ]]; then
   brew install hashicorp/tap/terraform
 fi
 
-# Install gke-gcloud-auth-plugin
-gcloud components install gke-gcloud-auth-plugin
-
 # Run terraform
 terraform init
-terraform apply -auto-approve
+terraform plan -out sample.plan
+terraform apply "sample.plan" -auto-approve
