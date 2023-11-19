@@ -9,6 +9,12 @@ if ! [[ "${is_azcli}" =~ "az" ]]; then
 fi
 az login
 
+# Push to Docker Hub
+docker login
+docker build -t darenjacobs/flask-app .
+docker image tag flask-app darenjacobs/flask-app:latest
+docker push darenjacobs/flask-app:latest
+
 
 # check for Terraform
 is_terraform=$(which terraform)
