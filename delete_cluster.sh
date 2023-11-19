@@ -8,3 +8,7 @@ az group delete --name my-resource-group --yes
 if [[ -f "./sample.plan" ]]; then
   rm sample.plan
 fi
+
+if [[ -f "./kubeconfig" ]]; then
+  rm kubeconfig
+fi
