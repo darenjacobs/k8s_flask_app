@@ -15,7 +15,7 @@ fi
 ## gcloud config set project ${GKE_PROJECT_ID}
 
 
-# Push to Docker
+# Push to Docker Hub
 docker login
 docker build -t darenjacobs/flask-app .
 docker image tag flask-app darenjacobs/flask-app:latest
