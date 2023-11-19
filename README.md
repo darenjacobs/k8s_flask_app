@@ -54,6 +54,7 @@ $ gcloud components install gke-gcloud-auth-plugin
 
 ```console
 $ terraform init
+$ terraform plan
 $ terraform apply
 ```
 
