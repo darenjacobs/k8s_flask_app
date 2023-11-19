@@ -107,11 +107,13 @@ jobs:
           aws eks update-kubeconfig --region us-east-1 --name my-cluster 2>&1 | tee output.txt
 
       - name: Delete the Cluster if it Exists
-        if: always():
+        if: always()
         shell: bash
         run: |
           var=$(cat output.txt)
-          if ! [[ "${var}" =~ "error" ]]; then echo "***DELETING EKS CLUSTER***: my-cluster"; eksctl delete cluster --name my-cluster --region us-east-1; aws kms delete-alias --region us-east-1  --alias-name alias/eks/my-cluster; fi
+          if ! [[ "${var}" =~ "error" ]]; then echo "***DELETING EKS CLUSTER***: my-cluster"; \
+            eksctl delete cluster --name my-cluster --region us-east-1; \
+            aws kms delete-alias --region us-east-1  --alias-name alias/eks/my-cluster; fi
 
 
       # Terraform
