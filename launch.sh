@@ -17,5 +17,5 @@ az account set --subscription 8eabaef9-7693-472b-8ee4-6ab9ebfd18ac
 
 # Run terraform
 terraform init
-terraform plan
-terraform apply -auto-approve
+terraform plan -out sample.plan
+terraform apply "sample.plan" -auto-approve

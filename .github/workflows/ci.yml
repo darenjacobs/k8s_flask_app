@@ -68,8 +68,8 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          # tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:latest, ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:${{ github.run_number }}
-          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:latest, ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:${{ github.run_number }}
+          # tags: ${{ secrets.DOCKER_USERNAME }}/${{ secrets.DOCKER_NAME }}:latest
 
 
   deploy:
@@ -84,14 +84,14 @@ jobs:
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-      
+
       - name: Azure CLI script
         uses: azure/CLI@v1
         with:
           azcliversion: 2.30.0
           inlineScript: |
               az account show
-      
+
       - name: Check If the Cluster Exists
         shell: bash
         run: |
@@ -103,7 +103,7 @@ jobs:
           var=$(cat output.txt)
           if [[ "${var}" =~ "my-cluster" ]]; then echo "***DELETING CLUSTER***: my-cluster"; az aks delete --name my-cluster --resource-group my-resource-group --yes; sleep 10; az group delete --name my-resource-group --yes; fi
         shell: bash
-        
+
       # Terraform
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
