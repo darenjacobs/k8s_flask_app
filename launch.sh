@@ -4,9 +4,9 @@
 # Install SDK
 is_gcloud=$(which gcloud)
 if ! [[ "${is_gcloud}" =~ "gcloud" ]]; then
-  curl -o ~/Downloads/google-cloud-cli-455.0.0-darwin-x86_64.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-455.0.0-darwin-x86_64.tar.gz
-  ~/Downloads/google-cloud-sdk/install.sh
-  ~/Downloads/google-cloud-sdk/bin/gcloud init
+  curl -o ~/Documents/google-cloud-cli-455.0.0-darwin-x86_64.tar.gz https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-cli-455.0.0-darwin-x86_64.tar.gz
+  ~/Documents/google-cloud-sdk/install.sh
+  ~/Documents/google-cloud-sdk/bin/gcloud init
 fi
 
 ## # Install gke-gcloud-auth-plugin
