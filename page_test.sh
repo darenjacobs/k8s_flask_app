@@ -4,7 +4,7 @@ export KUBECONFIG="./kubeconfig"
 
 endpoint=$(kubectl get service |grep my-app-service |awk '{ print $4 }')
 
-pip3 install requests
+python3 -m pip install requests
 
 echo "import requests" > check_endpoint.py
 echo "response = requests.get(\"http://${endpoint}/\")" >> check_endpoint.py
