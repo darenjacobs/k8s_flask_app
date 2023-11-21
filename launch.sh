@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Set to your docker Username
+DOCKER_USERNAME=darenjacobs
+
 # Login to Azure
 is_azcli=$(which az)
 
@@ -11,9 +14,9 @@ az login
 
 # Push to Docker Hub
 docker login
-docker build -t darenjacobs/flask-app .
-docker image tag flask-app darenjacobs/flask-app:latest
-docker push darenjacobs/flask-app:latest
+docker build -t ${DOCKER_USERNAME}/flask-app .
+docker image tag flask-app ${DOCKER_USERNAME}/flask-app:latest
+docker push ${DOCKER_USERNAME}/flask-app:latest
 
 
 # check for Terraform
@@ -29,3 +32,6 @@ fi
 terraform init
 terraform plan -out sample.plan
 terraform apply -auto-approve "sample.plan"
+
+sleep 300
+terraform destroy -auto-approve
