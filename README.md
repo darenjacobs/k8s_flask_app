@@ -14,7 +14,7 @@ The Easiest way to deploy the Flask App is to [SET GITHUB ACTIONS SECRETS](https
 
 
 
-### ABOUT FLASK APP
+### ABOUT THE FLASK APP
 ```
 Written in Python app.py listens on port 8080 to display the JSON text:
 {
