@@ -109,6 +109,7 @@ In Github (Settings - Secrets and variables - Actions) set the following secrets
 - DOCKER_PASSWORD - your dockerhub password
 
 Cloud Provider Secrets:
+
 GCP:
  - GKE_PROJECT_ID - GKE project ID
  - SA_CREDENTIAL: JSON credentials for the service account with at least "Kubernetes Engine Developer" permissions
