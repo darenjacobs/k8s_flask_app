@@ -167,3 +167,8 @@ jobs:
           aws eks update-kubeconfig --region us-east-2 --name my-cluster
           kubectl get nodes
           bash page_test.sh
+          sleep 120
+          
+      - name: Terraform destroy
+        id: destroy
+        run: terraform destroy -auto-approve
