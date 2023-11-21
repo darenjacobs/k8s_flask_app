@@ -97,12 +97,9 @@ terraform destroy -auto-approve
 ## CI / CD Pipelines
 
 Any commits to the branches will start the pipeline which will test the app, deploy the app to Docker Hub, create a K8s cluster in the respective Cloud provider, and deploy the app to the cluster.
+
 Checkout the "main" branch for GCP (GKE), the "aws" branch for AWS (EKS), or the "azure" branch for Azure (AKS)
 
-Delete the cluster:
-```console
-delete_cluster.sh
-```
 
 # SET SECRETS
 In Github (Settings - Secrets and variables - Actions) set the following secrets:
