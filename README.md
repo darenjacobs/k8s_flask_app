@@ -9,7 +9,7 @@ $ git clone https://github.com/darenjacobs/k8s_flask_app.git
 ```
 
 TLDR:
-The Easiest way to deploy the Flask App is to [SET GITHUB ACTIONS SECRETS](#set-secrets) and commit to the branch.
+The easiest way to deploy the Flask App is to [SET GITHUB ACTIONS SECRETS](#set-secrets) and commit to the branch.
 
 
 
@@ -23,7 +23,6 @@ Written in Python app.py listens on port 8080 to display the JSON text:
 ```
 
 ### RUN THE FLASK APP LOCALLY
-This simulates an on-premises installation
 ```console
 $ pip3 install flask
 $ python3 app.py
@@ -31,13 +30,11 @@ $ python3 app.py
 visit http://127.0.0.1:8080/ in your web browser
 
 
-### SINGLE COMMAND
+### SINGLE COMMAND TO LAUNCH THE ENVIRONMENT AND DEPLOY THE APPLICATON
 ```console
 $ bash launch.sh
 ```
-
 Running the script launch.sh performs the PREREQUISITES and CLOUD DEPLOYMENT
-
 
 
 ### PREREQUISITES
@@ -71,7 +68,6 @@ $ curl http://PUBLIC_IP/
 }
 ```
 
-
 ### DELETE THE APP & CLUSTER
 ```console
 $ terraform destroy -auto-approve
@@ -82,8 +78,8 @@ Any commits to the branch will start the pipeline which will test the app, deplo
 
 
 ### SET SECRETS
- - AWS_ACCESS_KEY - Access Key ID to service account with permissions to create an EKS cluster
- - AWS_SECRET_KEY - Secret Access key to a service account with permissions to create an EKS  cluster
+- AWS_ACCESS_KEY - Access Key ID to service account with permissions to create an EKS cluster
+- AWS_SECRET_KEY - Secret Access key to a service account with permissions to create an EKS  cluster
 - DOCKER_NAME - flask-app
 - DOCKER_USERNAME - your dockerhub username
 - DOCKER_PASSWORD - your dockerhub password
