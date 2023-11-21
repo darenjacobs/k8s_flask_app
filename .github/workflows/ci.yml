@@ -135,3 +135,8 @@ jobs:
           export KUBECONFIG="./kubeconfig"
           kubectl get nodes
           bash page_test.sh
+          sleep 120
+
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform destroy -auto-approve
