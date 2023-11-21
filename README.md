@@ -1,11 +1,5 @@
 # Kubernetes Flask App
 
-### FLASK APP
-Written in Python, the flask application, app.py listens on port 8080 and displays the JSON text:
-{
-“message”: “Automate all the things!”,
-“timestamp”: 1529729125
-}
 
 # USER GUIDE
 
@@ -14,15 +8,33 @@ Clone this Repository:
 git clone https://github.com/darenjacobs/k8s_flask_app.git
 ```
 
+TLDR:
+The Easiest way to deploy the Flask App is to [SET SECRETS](# SET SECRETS) and commit to the branch.
+
+
+
+
+
+### FLASK APP
+Written in Python, the flask application, app.py listens on port 8080 and displays the JSON text:
+{
+“message”: “Automate all the things!”,
+“timestamp”: 1529729125
+}
+
+
+### RUN THE FLASK APP LOCALLY
+
 Please note:
 * It is assumed that you possess a Google Cloud Platform (GCP) account and have the necessary access to the GCP API.
 * If not you may need to install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install).
 * To run the Flask locally, Python3 is required.
 
 Edit line 2 of main.tf to point it to the location of your credentials file.
+
 Edit line 3 of main.tf entering your GCP project
 
-### RUN THE FLASK APP LOCALLY
+
 This simulates an on-premises installation
 ```console
 pip3 install flask
@@ -89,7 +101,7 @@ Delete the cluster:
 delete_cluster.sh
 ```
 
-### SET SECRETS
+# SET SECRETS
 In Github (Settings - Secrets and variables - Actions) set the following secrets:
 
 DOCKER_NAME - flask-app
