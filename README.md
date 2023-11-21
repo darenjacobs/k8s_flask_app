@@ -67,6 +67,7 @@ terraform apply
 ```
 
 ### AUTOMATED TESTING
+```
 After deployment Terraform will automatically check the status of the service to validate that it returns a 200 response
 
 The ultimate result from Terraform yields the public IP. Execute a curl command using that IP.  Output is similar to the following:
@@ -80,6 +81,7 @@ $ curl http://PUBLIC_IP/
   "message": "Automate all the things!",
   "timestamp": 1699943619
 }
+```
 
 ### MANUALLY TEST ENDPOINT
 ```console
@@ -95,7 +97,7 @@ terraform destroy -auto-approve
 ## CI / CD Pipelines
 
 Any commits to the branches will start the pipeline which will test the app, deploy the app to Docker Hub, create a K8s cluster in the respective Cloud provider, and deploy the app to the cluster.
-Checkout the "main" branch for GCP [GKE], the "aws" branch for AWS [EKS], or the "azure" branch for Azure [AKS]
+Checkout the "main" branch for GCP (GKE), the "aws" branch for AWS (EKS), or the "azure" branch for Azure (AKS)
 
 Delete the cluster:
 ```console
