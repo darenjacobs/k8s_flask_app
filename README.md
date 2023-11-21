@@ -90,3 +90,6 @@ Any commits to the branch will start the pipeline which will test the app, deplo
 
 ### SET SECRETS
 - AZURE_CREDENTIAL - Service Principal credentials with contributor access to your subscription
+- DOCKER_NAME - flask-app
+- DOCKER_USERNAME - your dockerhub username
+- DOCKER_PASSWORD - your dockerhub password
