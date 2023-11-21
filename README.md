@@ -1,13 +1,5 @@
 # Kubernetes Flask App
 
-### FLASK APP
-```
-Written in Python app.py listens on port 8080 to display the JSON text:
-{
-“message”: “Automate all the things!”,
-“timestamp”: 1529729125
-}
-```
 
 # USER GUIDE
 
@@ -16,14 +8,19 @@ Clone this Repository:
 $ git clone https://github.com/darenjacobs/k8s_flask_app.git
 ```
 
-Please note:
-* It is assumed that you possess a Google Cloud Platform (GCP) account and have the necessary access to the GCP API.
-* If not you may need to install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install).
-* To run the Flask locally, Python3 is required.
+TLDR:
+The Easiest way to deploy the Flask App is to [SET GITHUB ACTIONS SECRETS](#set-secrets) and commit to the branch.
 
-Edit line 2 of main.tf to point it to the location of your credentials file.
 
-Edit line 3 of main.tf entering your GCP project
+
+### ABOUT THE FLASK APP
+```
+Written in Python app.py listens on port 8080 to display the JSON text:
+{
+“message”: “Automate all the things!”,
+“timestamp”: 1529729125
+}
+```
 
 ### RUN THE FLASK APP LOCALLY
 This simulates an on-premises installation
@@ -59,13 +56,10 @@ $ terraform apply
 ```
 
 ### AUTOMATED TESTING
+```
 After deployment Terraform will automatically check the status of the service to validate that it returns a 200 response
 
-
-
-### USE THE APP
 The ultimate result from Terraform yields the public IP. Execute a cURL command using that IP.
-```
 data.http.my_app_service: Reading...
 data.http.my_app_service: Read complete after 0s [id=http://PUBLIC_IP/]
 
@@ -82,3 +76,14 @@ $ curl http://PUBLIC_IP/
 ```console
 $ terraform destroy -auto-approve
 ```
+
+## CI / CD PIPELINE
+Any commits to the branch will start the pipeline which will test the app, deploy the app to Docker Hub, create a K8s cluster in the respective Cloud provider, and deploy the app to the cluster.
+
+
+### SET SECRETS
+ - AWS_ACCESS_KEY - Access Key ID to service account with permissions to create an EKS cluster
+ - AWS_SECRET_KEY - Secret Access key to a service account with permissions to create an EKS  cluster
+- DOCKER_NAME - flask-app
+- DOCKER_USERNAME - your dockerhub username
+- DOCKER_PASSWORD - your dockerhub password
