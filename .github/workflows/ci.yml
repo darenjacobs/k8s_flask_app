@@ -155,3 +155,9 @@ jobs:
           gcloud container clusters get-credentials my-cluster --region us-central1
           kubectl get nodes
           bash page_test.sh
+          # Sleep
+          sleep 120
+      
+      - name: Terraform destroy
+        id: destoy
+        run: terraform destroy -auto-approve
