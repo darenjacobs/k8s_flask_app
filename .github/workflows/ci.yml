@@ -128,7 +128,6 @@ jobs:
       # Terraform
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v2
-        with:
 
       - name: Terraform Format
         id: fmt
