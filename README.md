@@ -1,6 +1,6 @@
 # Kubernetes Flask App
 
-
+https://github.com/darenjacobs/k8s_flask_app
 # USER GUIDE
 
 Clone this Repository:
@@ -71,11 +71,6 @@ $ curl http://PUBLIC_IP/
   "message": "Automate all the things!",
   "timestamp": 1699943619
 }
-```
-
-### MANUALLY TEST ENDPOINT
-```console
-bash page_test.sh
 ```
 
 ### DELETE THE APP & CLUSTER
