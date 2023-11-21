@@ -9,18 +9,19 @@ git clone https://github.com/darenjacobs/k8s_flask_app.git
 ```
 
 TLDR:
-The Easiest way to deploy the Flask App is to [SET SECRETS](https://github.com/darenjacobs/k8s_flask_app/tree/main#set-secrets) and commit to the branch.
+The Easiest way to deploy the Flask App is to [SET GITHUB ACTIONS SECRETS](https://github.com/darenjacobs/k8s_flask_app/tree/main#set-secrets) and commit to the branch.
 
 
 
 
-
-### FLASK APP
-Written in Python, the flask application, app.py listens on port 8080 and displays the JSON text:
+### ABOUT FLASK APP
+```
+Written in Python app.py listens on port 8080 to display the JSON text:
 {
 “message”: “Automate all the things!”,
 “timestamp”: 1529729125
 }
+```
 
 
 ### RUN THE FLASK APP LOCALLY
