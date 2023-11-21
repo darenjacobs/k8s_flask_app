@@ -112,7 +112,7 @@ Cloud Provider Secrets:
 
 GCP:
  - GKE_PROJECT_ID - GKE project ID
- - SA_CREDENTIAL: JSON credentials for the service account with at least "Kubernetes Engine Developer" permissions
+ - SA_CREDENTIAL - JSON credentials for the service account with at least "Kubernetes Engine Developer" permissions
 
 AWS:
  - AWS_ACCESS_KEY - Access Key ID to service account with permissions to create an EKS cluster
