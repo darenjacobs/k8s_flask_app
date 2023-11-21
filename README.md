@@ -25,17 +25,6 @@ Written in Python app.py listens on port 8080 to display the JSON text:
 
 
 ### RUN THE FLASK APP LOCALLY
-
-Please note:
-* It is assumed that you possess a Google Cloud Platform (GCP) account and have the necessary access to the GCP API.
-* If not you may need to install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install).
-* To run the Flask locally, Python3 is required.
-
-Edit line 2 of main.tf to point it to the location of your credentials file.
-
-Edit line 3 of main.tf entering your GCP project
-
-
 This simulates an on-premises installation
 ```console
 pip3 install flask
@@ -45,6 +34,15 @@ visit http://127.0.0.1:8080/ in your web browser
 
 
 ### MANUAL CLOUD DEPLOYMENT
+Please note:
+* It is assumed that you possess a Google Cloud Platform (GCP) account and have the necessary access to the GCP API.
+* If not you may need to install [Google Cloud SDK](https://cloud.google.com/sdk/docs/install).
+* To run the Flask locally, Python3 is required.
+
+Edit line 2 of main.tf to point it to the location of your credentials file.
+
+Edit line 3 of main.tf entering your GCP project
+
 ```console
 bash launch.sh
 ```
