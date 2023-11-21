@@ -104,9 +104,9 @@ Checkout the "main" branch for GCP (GKE), the "aws" branch for AWS (EKS), or the
 # SET SECRETS
 In Github (Settings - Secrets and variables - Actions) set the following secrets:
 
-DOCKER_NAME - flask-app
-DOCKER_USERNAME - your dockerhub username
-DOCKER_PASSWORD - your dockerhub password
+- DOCKER_NAME - flask-app
+- DOCKER_USERNAME - your dockerhub username
+- DOCKER_PASSWORD - your dockerhub password
 
 Cloud Provider Secrets:
 GCP:
