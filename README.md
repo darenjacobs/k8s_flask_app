@@ -34,7 +34,7 @@ visit http://127.0.0.1:8080/ in your web browser
 ```console
 $ bash launch.sh
 ```
-Running the script launch.sh performs the PREREQUISITES and CLOUD DEPLOYMENT
+Running the script launch.sh performs the PREREQUISITES and CLOUD DEPLOYMENT.
 
 
 ### PREREQUISITES
