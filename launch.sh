@@ -32,8 +32,8 @@ terraform init
 terraform plan -out sample.plan
 terraform apply -auto-approve "sample.plan"
 
-if [[ -f ./page-test.sh ]]; then
-  bash ./page-test.sh
+if [[ -f ./page_test.sh ]]; then
+  bash ./page_test.sh
 fi
 
 sleep 300
