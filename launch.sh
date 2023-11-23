@@ -18,8 +18,7 @@ docker build -t ${DOCKER_USERNAME}/flask-app .
 docker image tag flask-app ${DOCKER_USERNAME}/flask-app:latest
 docker push ${DOCKER_USERNAME}/flask-app:latest
 
-
-# check for Terraform
+# check for terraform
 is_terraform=$(which terraform)
 
 if ! [[ "${is_terraform}" =~ "terraform" ]]; then
@@ -28,10 +27,10 @@ if ! [[ "${is_terraform}" =~ "terraform" ]]; then
   brew install hashicorp/tap/terraform
 fi
 
-# Run Terraform
+# Run terraform
 terraform init
 terraform plan -out sample.plan
 terraform apply -auto-approve "sample.plan"
 
 sleep 300
-terraform destroy -auto-approve
+terraform destroy -auto-approvee
