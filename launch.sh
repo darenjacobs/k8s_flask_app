@@ -23,6 +23,9 @@ terraform init
 terraform plan -out sample.plan
 terraform apply -auto-approve "sample.plan"
 
+# access the cluster
+aws eks update-kubeconfig --region us-east-2 --name my-cluster
+
 if [[ -f ./page_test.sh ]]; then
   bash ./page_test.sh
 fi
