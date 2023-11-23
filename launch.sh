@@ -32,5 +32,9 @@ terraform init
 terraform plan -out sample.plan
 terraform apply -auto-approve "sample.plan"
 
+if [[ -f ./page-test.sh ]]; then
+  bash ./page-test.sh
+fi
+
 sleep 300
-terraform destroy -auto-approvee
+terraform destroy -auto-approve
