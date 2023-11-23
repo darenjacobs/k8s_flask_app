@@ -13,7 +13,7 @@ if ! [[ "${is_gcloud}" =~ "gcloud" ]]; then
 fi
 
 ## # Install gke-gcloud-auth-plugin
-## gcloud auth application-default login
+gcloud auth application-default login
 ## gcloud components install gke-gcloud-auth-plugin
 ## gcloud config set project ${GKE_PROJECT_ID}
 
@@ -45,5 +45,5 @@ if [[ -f page_test.sh ]]; then
   bash ./page_test.sh
 fi
 
-sleep 300
+sleep 120
 terraform destroy -auto-approve
