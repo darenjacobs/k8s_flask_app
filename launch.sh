@@ -40,5 +40,10 @@ terraform init
 terraform plan -out sample.plan
 terraform apply -auto-approve "sample.plan"
 
+if [[ -f page_test.sh ]]; then
+  echo "RUNNING ENDPOINT TEST"
+  bash ./page_test.sh
+fi
+
 sleep 300
 terraform destroy -auto-approve
