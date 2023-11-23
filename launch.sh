@@ -36,5 +36,5 @@ if [[ -f ./page_test.sh ]]; then
   bash ./page_test.sh
 fi
 
-sleep 300
+sleep 120
 terraform destroy -auto-approve
