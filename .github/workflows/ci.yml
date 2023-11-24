@@ -163,7 +163,7 @@ jobs:
           bash page_test.sh
           # Sleep
           sleep 120
-      
+
       - name: Terraform destroy
         id: destoy
         run: terraform destroy -auto-approve
