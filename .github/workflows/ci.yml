@@ -162,7 +162,7 @@ jobs:
           kubectl get nodes
           bash page_test.sh
           # Sleep
-          sleep 121
+          sleep 120
 
       - name: Terraform destroy
         id: destoy
