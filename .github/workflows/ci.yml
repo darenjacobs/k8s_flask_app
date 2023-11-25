@@ -135,7 +135,7 @@ jobs:
           export KUBECONFIG="./kubeconfig"
           kubectl get nodes
           bash page_test.sh
-          sleep 121
+          sleep 120
 
       - name: Terraform Destroy
         id: destroy
