@@ -47,3 +47,8 @@ fi
 
 sleep 120
 terraform destroy -auto-approve
+
+sleep 10
+rm -rf terraform.tfstate*
+rm -rf .terraform
+rm sample.plan
