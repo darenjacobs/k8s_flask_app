@@ -80,7 +80,7 @@ jobs:
 
   deploy:
     needs: [build]
-    runs-on: ubuntu-latest
+    runs-on: uuntu-latest
     env:
       PROJECT_ID: ${{ secrets.GKE_PROJECT_ID }}
 
@@ -161,6 +161,10 @@ jobs:
           gcloud container clusters get-credentials my-cluster --region us-central1
           kubectl get nodes
           bash page_test.sh
+
+      - name: Application Online before destroy
+        shell: bash
+        run: |
           # Sleep
           sleep 121
 
