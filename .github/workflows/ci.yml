@@ -166,7 +166,7 @@ jobs:
         shell: bash
         run: |
           # Sleep
-          sleep 121
+          sleep 120
 
       - name: Terraform destroy
         id: destoy
