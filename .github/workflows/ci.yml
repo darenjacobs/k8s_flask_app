@@ -135,7 +135,12 @@ jobs:
           export KUBECONFIG="./kubeconfig"
           kubectl get nodes
           bash page_test.sh
-          sleep 300
+
+      - name: Application Online before destroy
+        shell: bash
+        run: |
+          # Sleep
+          sleep 121
 
       - name: Terraform Destroy
         id: destroy
