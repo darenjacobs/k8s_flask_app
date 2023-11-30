@@ -139,8 +139,7 @@ jobs:
       - name: Application Online before destroy
         shell: bash
         run: |
-          # Sleep
-          sleep 121
+          sleep 120
 
       - name: Terraform Destroy
         id: destroy
