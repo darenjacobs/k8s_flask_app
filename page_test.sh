@@ -9,7 +9,7 @@ URL="http://${endpoint}/"
 
 
 # Create URL check
-python3 -m pip install requests
+sudo python3 -m pip install requests
 echo "import requests" > check_endpoint.py
 echo "response = requests.get(\"$URL\")" >> check_endpoint.py
 echo "print(response)" >> check_endpoint.py
