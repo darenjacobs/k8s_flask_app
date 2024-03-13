@@ -41,7 +41,6 @@ Running the script launch.sh performs the PREREQUISITES and CLOUD DEPLOYMENT.
 ```console
 $ brew tap hashicorp/tap
 $ brew install hashicorp/tap/terraform
-$ gcloud components install gke-gcloud-auth-plugin
 ```
 
 ### CLOUD DEPLOYMENT
