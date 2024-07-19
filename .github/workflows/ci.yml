@@ -102,7 +102,6 @@ jobs:
         uses: google-github-actions/setup-gcloud@v1
         with:
           project_id: ${{ secrets.GKE_PROJECT_ID }}
-          export_default_credentials: true
 
       - name: Check If the GKE Cluster Exists
         run: |
@@ -114,6 +113,12 @@ jobs:
           var=$(cat output.txt)
           if [[ "${var}" =~ "ubeconfig" ]]; then echo "***DELETING GKE CLUSTER***: my-cluster"; gcloud container clusters delete my-cluster --region us-central1 --quiet; fi
         shell: bash
+
+      # Helm
+      - name: Install Helm
+        shell: bash
+        run: |
+          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
       # Terraform
       - name: Create Credentials JSON file # Create Credentials file for Google provider
@@ -155,20 +160,6 @@ jobs:
           mkdir -p ~/.local/bin
           mv ./kubectl ~/.local/bin/kubectl
           export PATH="$HOME/.local/bin:$PATH"
-
-      - name: Install Helm
-        shell: bash
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
-#      - name: Deploy with Helm
-#        shell: bash
-#        run: |
-#          gcloud container clusters get-credentials my-cluster --region us-central1
-#          helm repo add bitnami https://charts.bitnami.com/bitnami
-#          helm repo update
-#          helm install my-app ./flask-app
-#
 
       - name: Additional Automated Test
         shell: bash
