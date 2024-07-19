@@ -9,11 +9,14 @@ resource "google_container_cluster" "my_cluster" {
   location            = "us-central1"
   deletion_protection = false # Set deletion protection to false
 
+  # Enabling Autopilot for this cluster
+  enable_autopilot = true
+
   initial_node_count = 1
 
-  node_config {
-    machine_type = "n1-standard-1"
-  }
+  # node_config {
+  #   machine_type = "n1-standard-1"
+  # }
 }
 
 data "google_client_config" "provider" {}
