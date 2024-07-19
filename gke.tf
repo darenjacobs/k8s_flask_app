@@ -12,7 +12,7 @@ resource "google_container_cluster" "my_cluster" {
   # Enabling Autopilot for this cluster
   enable_autopilot = true
 
-  initial_node_count = 1
+  # initial_node_count = 1
 
   # node_config {
   #   machine_type = "n1-standard-1"
@@ -36,39 +36,39 @@ provider "kubernetes" {
   }
 }
 
-# resource "kubernetes_deployment" "my_app" {
-#   metadata {
-#     name = "my-app"
-#   }
-#
-#   spec {
-#     replicas = 1
-#
-#     selector {
-#       match_labels = {
-#         app = "my-app"
-#       }
-#     }
-#
-#     template {
-#       metadata {
-#         labels = {
-#           app = "my-app"
-#         }
-#       }
-#
-#       spec {
-#         container {
-#           name  = "my-app"
-#           image = "darenjacobs/flask-app:latest"
-#           port {
-#             container_port = 8080
-#           }
-#         }
-#       }
-#     }
-#   }
-# }
+resource "kubernetes_deployment" "my_app" {
+  metadata {
+    name = "my-app"
+  }
+
+  spec {
+    replicas = 1
+
+    selector {
+      match_labels = {
+        app = "my-app"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "my-app"
+        }
+      }
+
+      spec {
+        container {
+          name  = "my-app"
+          image = "darenjacobs/flask-app:latest"
+          port {
+            container_port = 8080
+          }
+        }
+      }
+    }
+  }
+}
 
 resource "kubernetes_service" "my_app_service" {
   metadata {
@@ -88,9 +88,6 @@ resource "kubernetes_service" "my_app_service" {
     }
   }
 }
-
-
-
 
 # some form of automated tests to validate the environment.
 # New feature in Terraform:https://github.com/hashicorp/terraform/releases/tag/v1.5.0  https://developer.hashicorp.com/terraform/language/checks
