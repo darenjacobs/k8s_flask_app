@@ -1,11 +1,13 @@
-from flask import Flask, jsonify
+""" Flask App """
 import time
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 
 
 @app.route('/')
 def get_message():
+    """ Get the message """
     current_timestamp = int(time.time())
     message_payload = {
         "message": "Hello World! - Automate all the things!",
