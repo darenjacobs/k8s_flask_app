@@ -8,7 +8,7 @@ app = Flask(__name__)
 def get_message():
     current_timestamp = int(time.time())
     message_payload = {
-        "message": "Automate all the things!",
+        "message": "Hello World! - Automate all the things!",
         "timestamp": current_timestamp
     }
     return jsonify(message_payload)
