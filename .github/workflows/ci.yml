@@ -161,14 +161,14 @@ jobs:
         run: |
           curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-      - name: Deploy with Helm
-        shell: bash
-        # run: |
-        #   gcloud container clusters get-credentials my-cluster --region us-central1
-        #   helm repo add bitnami https://charts.bitnami.com/bitnami
-        #   helm repo update
-        #   helm install my-app ./flask-app
-
+#      - name: Deploy with Helm
+#        shell: bash
+#        run: |
+#          gcloud container clusters get-credentials my-cluster --region us-central1
+#          helm repo add bitnami https://charts.bitnami.com/bitnami
+#          helm repo update
+#          helm install my-app ./flask-app
+#
 
       - name: Additional Automated Test
         shell: bash
