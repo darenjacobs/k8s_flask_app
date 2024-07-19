@@ -8,8 +8,9 @@ spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
+      targetPort: 8080  # Ensure this matches the container port
       protocol: TCP
       name: http
   selector:
-    {{- include "flask-app.selectorLabels" . | nindent 4 }}
+    app: {{ include "flask-app.name" . }}
+    release: {{ .Release.Name }}
