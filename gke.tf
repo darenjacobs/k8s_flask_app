@@ -118,7 +118,7 @@ resource "helm_release" "flask_app" {
 # New feature in Terraform:https://github.com/hashicorp/terraform/releases/tag/v1.5.0  https://developer.hashicorp.com/terraform/language/checks
 
 check "health_check" {
-  data "http" "my_app" {
+  data "http" "flask_app" {
     url = "http://${kubernetes_service.my_app_service.status.0.load_balancer.0.ingress.0.ip}/"
   }
 
