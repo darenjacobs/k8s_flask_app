@@ -36,57 +36,82 @@ provider "kubernetes" {
   }
 }
 
-resource "kubernetes_deployment" "my_app" {
-  metadata {
-    name = "my-app"
-  }
+# resource "kubernetes_deployment" "my_app" {
+#   metadata {
+#     name = "my-app"
+#   }
+#
+#   spec {
+#     replicas = 1
+#
+#     selector {
+#       match_labels = {
+#         app = "my-app"
+#       }
+#     }
+#
+#     template {
+#       metadata {
+#         labels = {
+#           app = "my-app"
+#         }
+#       }
+#
+#       spec {
+#         container {
+#           name  = "my-app"
+#           image = "darenjacobs/flask-app:latest"
+#           port {
+#             container_port = 8080
+#           }
+#         }
+#       }
+#     }
+#   }
+# }
+#
 
-  spec {
-    replicas = 1
+# resource "kubernetes_service" "my_app_service" {
+#   metadata {
+#     name = "my-app-service"
+#   }
+#
+#   spec {
+#     selector = {
+#       app = "my-app"
+#     }
+#
+#     type = "LoadBalancer"
+#     port {
+#       protocol    = "TCP"
+#       port        = 80
+#       target_port = 8080
+#     }
+#   }
+# }
 
-    selector {
-      match_labels = {
-        app = "my-app"
-      }
-    }
 
-    template {
-      metadata {
-        labels = {
-          app = "my-app"
-        }
-      }
-
-      spec {
-        container {
-          name  = "my-app"
-          image = "darenjacobs/flask-app:latest"
-          port {
-            container_port = 8080
-          }
-        }
-      }
+provider "helm" {
+  kubernetes {
+    host                   = "https://${data.google_container_cluster.my_cluster.endpoint}"
+    cluster_ca_certificate = base64decode(data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate)
+    exec {
+      api_version = "client.authentication.k8s.io/v1beta1"
+      args        = []
+      command     = "gke-gcloud-auth-plugin"
     }
   }
 }
 
-resource "kubernetes_service" "my_app_service" {
-  metadata {
-    name = "my-app-service"
-  }
-
-  spec {
-    selector = {
-      app = "my-app"
-    }
-
-    type = "LoadBalancer"
-    port {
-      protocol    = "TCP"
-      port        = 80
-      target_port = 8080
-    }
-  }
+resource "helm_release" "flask_app" {
+  name       = "flask-app"
+  repository = "https://charts.bitnami.com/bitnami"
+  chart      = "nginx"
+  version    = "13.2.9"
+  namespace  = "default"
+  values     = [
+    file("${path.module}/flask-app/values.yaml")
+  ]
 }
 
 # some form of automated tests to validate the environment.
