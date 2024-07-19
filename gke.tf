@@ -5,8 +5,8 @@ provider "google" {
 }
 
 resource "google_container_cluster" "my_cluster" {
-  name                = "my-cluster"
-  location            = "us-central1"
+  name     = "my-cluster"
+  location = "us-central1"
   # deletion_protection = false # Set deletion protection to false
 
   # Enabling Autopilot for this cluster
