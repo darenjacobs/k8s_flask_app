@@ -18,6 +18,7 @@ podSecurityContext: {}
 securityContext: {}
 
 service:
+  name: my-app-service
   type: LoadBalancer
   port: 80
 
