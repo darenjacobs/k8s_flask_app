@@ -41,14 +41,14 @@ provider "helm" {
   }
 }
 
-resource "helm_release" "flask_app" {
-  name       = "my-app"
-  chart      = "${path.module}/flask-app"
-  namespace  = "default"
-  values     = [
-    file("${path.module}/flask-app/values.yaml")
-  ]
-}
+# resource "helm_release" "flask_app" {
+#   name       = "my-app"
+#   chart      = "${path.module}/flask-app"
+#   namespace  = "default"
+#   values     = [
+#     file("${path.module}/flask-app/values.yaml")
+#   ]
+# }
 
 # # Automated health check
 # check "health_check" {
