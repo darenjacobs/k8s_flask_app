@@ -5,9 +5,7 @@ metadata:
   labels:
     {{- include "flask-app.labels" . | nindent 4 }}
 spec:
-  {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
-  {{- end }}
   selector:
     matchLabels:
       {{- include "flask-app.selectorLabels" . | nindent 6 }}
@@ -38,16 +36,10 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 8080  # Updated to port 8080
+              containerPort: 8080
               protocol: TCP
-#          livenessProbe:
-#            httpGet:
-#              path: /
-#              port: 8080
-#          readinessProbe:
-#            httpGet:
-#              path: /
-#              port: 8080
+          livenessProbe: {}
+          readinessProbe: {}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           {{- with .Values.volumeMounts }}

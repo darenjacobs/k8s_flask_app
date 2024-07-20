@@ -43,33 +43,9 @@ provider "helm" {
 
 resource "helm_release" "flask_app" {
   name       = "flask-app"
-  repository = "https://charts.bitnami.com/bitnami"
-  chart      = "nginx"
-  version    = "13.2.9"
+  chart      = "${path.module}/flask-app"
   namespace  = "default"
   values     = [
-    file("${path.module}/flask-app/values.yaml"),
-    yamlencode({
-      livenessProbe = {}
-      readinessProbe = {}
-      nginx = {
-        livenessProbe = {}
-        readinessProbe = {}
-      }
-    })
+    file("${path.module}/flask-app/values.yaml")
   ]
 }
-
-# Todo: fix this
-
-# # Automated health check
-# check "health_check" {
-#   data "http" "my_app_service" {
-#     url = "http://${helm_release.flask_app.status.load_balancer.ingress[0].ip}/"
-#   }
-#
-#   assert {
-#     condition     = data.http.my_app_service.status_code == 200
-#     error_message = "ERROR: returned an unhealthy status code"
-#   }
-# }
