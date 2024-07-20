@@ -58,7 +58,7 @@ resource "null_resource" "health_check" {
       # Retrieve the external IP address of the service
       SERVICE_IP=$(kubectl get svc my-app-flask-app -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
       # Perform the health check
-      STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://${SERVICE_IP})
+      STATUS_CODE=$(curl -s -o /dev/null -w "%%{http_code}" http://${SERVICE_IP})
       if [ "${STATUS_CODE}" -ne 200 ]; then
         echo "ERROR: returned an unhealthy status code: ${STATUS_CODE}"
         exit 1
