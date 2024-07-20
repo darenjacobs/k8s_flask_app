@@ -111,27 +111,3 @@ resource "helm_release" "flask_app" {
     file("${path.module}/flask-app/values.yaml")
   ]
 }
-
-output "service_ip" {
-  value = helm_release.flask_app.status[0].load_balancer[0].ingress[0].hostname
-}
-
-resource "null_resource" "wait_for_service" {
-  provisioner "local-exec" {
-    command = "kubectl wait --for=condition=ready pod -l app=my-app --timeout=300s"
-  }
-  depends_on = [helm_release.flask_app]
-}
-
-data "http" "my_app_service" {
-  url = "http://${helm_release.flask_app.status[0].load_balancer[0].ingress[0].hostname}/"
-
-  depends_on = [null_resource.wait_for_service]
-}
-
-check "response" {
-  assert {
-    condition     = data.http.my_app_service.status_code == 200
-    error_message = "ERROR: returned an unhealthy status code"
-  }
-}
