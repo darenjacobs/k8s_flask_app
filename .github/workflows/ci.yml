@@ -172,5 +172,6 @@ jobs:
       - name: Terraform destroy
         id: destoy
         run: |
-          gcloud container clusters delete my-cluster --region us-central1 --quiet
+          gcloud container clusters get-credentials my-cluster --region us-central1 --project intense-vault-200013
+          export KUBECONFIG=~/.kube/config
           terraform destroy -auto-approve
