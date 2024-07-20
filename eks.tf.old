@@ -4,14 +4,6 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.26.0"
     }
-    kubernetes = {
-      source  = "hashicorp/kubernetes"
-      version = "~> 2.10.0"
-    }
-    helm = {
-      source  = "hashicorp/helm"
-      version = "~> 2.5.1"
-    }
   }
 }
 
@@ -52,7 +44,7 @@ module "eks" {
   source          = "terraform-aws-modules/eks/aws"
   version         = "19.20.0"
   cluster_name    = "my-cluster"
-  cluster_version = "1.30"
+  cluster_version = "1.28"
 
   vpc_id                         = module.vpc.vpc_id
   subnet_ids                     = module.vpc.private_subnets
@@ -81,55 +73,78 @@ module "eks" {
   }
 }
 
+
 provider "kubernetes" {
   host                   = module.eks.cluster_endpoint
   cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
   exec {
     api_version = "client.authentication.k8s.io/v1beta1"
     command     = "aws"
-    args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+    # This requires the awscli to be installed locally where Terraform is executed
+    args = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
   }
 }
 
-provider "helm" {
-  kubernetes {
-    host                   = module.eks.cluster_endpoint
-    cluster_ca_certificate = base64decode(module.eks.cluster_certificate_authority_data)
-    exec {
-      api_version = "client.authentication.k8s.io/v1beta1"
-      command     = "aws"
-      args        = ["eks", "get-token", "--cluster-name", module.eks.cluster_name]
+resource "kubernetes_deployment" "my_app" {
+  metadata {
+    name = "my-app"
+  }
+
+  spec {
+    replicas = 1
+
+    selector {
+      match_labels = {
+        app = "my-app"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          app = "my-app"
+        }
+      }
+
+      spec {
+        container {
+          name  = "my-app"
+          image = "darenjacobs/flask-app:latest"
+          port {
+            container_port = 8080
+          }
+        }
+      }
     }
   }
 }
 
-resource "helm_release" "flask_app" {
-  name       = "my-app"
-  chart      = "${path.module}/flask-app"
-  namespace  = "default"
-  values     = [
-    file("${path.module}/flask-app/values.yaml")
-  ]
-}
 
-output "service_ip" {
-  value = helm_release.flask_app.status[0].load_balancer[0].ingress[0].hostname
-}
-
-resource "null_resource" "wait_for_service" {
-  provisioner "local-exec" {
-    command = "kubectl wait --for=condition=ready pod -l app=my-app --timeout=300s"
+resource "kubernetes_service" "my_app_service" {
+  metadata {
+    name = "my-app-service"
   }
-  depends_on = [helm_release.flask_app]
+
+  spec {
+    selector = {
+      app = "my-app"
+    }
+
+    type = "LoadBalancer"
+    port {
+      protocol    = "TCP"
+      port        = 80
+      target_port = 8080
+    }
+  }
 }
 
-data "http" "my_app_service" {
-  url = "http://${helm_release.flask_app.status[0].load_balancer[0].ingress[0].hostname}/"
-
-  depends_on = [null_resource.wait_for_service]
-}
 
 check "response" {
+  data "http" "my_app_service" {
+    url = "http://${kubernetes_service.my_app_service.status.0.load_balancer.0.ingress.0.hostname}/"
+  }
+
   assert {
     condition     = data.http.my_app_service.status_code == 200
     error_message = "ERROR: returned an unhealthy status code"
