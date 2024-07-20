@@ -47,5 +47,13 @@ resource "helm_release" "flask_app" {
   namespace  = "default"
   values     = [
     file("${path.module}/flask-app/values.yaml")
+    yamlencode({
+      livenessProbe = {}
+      readinessProbe = {}
+      nginx = {
+        livenessProbe = {}
+        readinessProbe = {}
+      }
+    })
   ]
 }

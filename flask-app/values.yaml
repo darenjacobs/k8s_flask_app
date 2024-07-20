@@ -56,3 +56,10 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+nginx:
+  service:
+    type: LoadBalancer
+  ingress:
+    enabled: true
+    hostname: example.local
