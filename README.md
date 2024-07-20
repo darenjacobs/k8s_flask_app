@@ -12,43 +12,13 @@ TLDR:
 The easiest way to deploy the Flask App is to [SET GITHUB ACTIONS SECRETS](#set-secrets) and commit to the branch.
 
 
-
 ### ABOUT THE FLASK APP
 ```
 Written in Python app.py listens on port 8080 to display the JSON text:
 {
-“message”: “Automate all the things!”,
+“message”: “Hello World! - Automate all the things!”,
 “timestamp”: 1529729125
 }
-```
-
-### RUN THE FLASK APP LOCALLY
-```console
-$ pip3 install flask
-$ python3 app.py
-```
-visit http://127.0.0.1:8080/ in your web browser
-
-
-### SINGLE COMMAND TO LAUNCH THE ENVIRONMENT AND DEPLOY THE APPLICATON
-```console
-$ bash launch.sh
-```
-Running the script launch.sh performs the PREREQUISITES and CLOUD DEPLOYMENT.
-
-
-### PREREQUISITES
-```console
-$ brew tap hashicorp/tap
-$ brew install hashicorp/tap/terraform
-```
-
-### CLOUD DEPLOYMENT
-
-```console
-$ terraform init
-$ terraform plan
-$ terraform apply
 ```
 
 ### AUTOMATED TESTING
@@ -62,7 +32,7 @@ data.http.my_app_service: Read complete after 0s [id=http://PUBLIC_IP/]
 Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
 $ curl http://PUBLIC_IP/
 {
-  "message": "Automate all the things!",
+  "message": "Hello World! - Automate all the things!",
   "timestamp": 1699943619
 }
 ```
