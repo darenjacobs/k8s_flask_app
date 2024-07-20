@@ -123,7 +123,9 @@ jobs:
         shell: bash
 
       - name: Install Terraform
-        uses: hashicorp/setup-terraform@v2
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version "1.9.2"
 
       - name: Terraform Format
         id: fmt
@@ -171,4 +173,5 @@ jobs:
         id: destoy
         run: |
           gcloud container clusters get-credentials my-cluster --region us-central1
+          export KUBECONFIG=~/.kube/config
           terraform destroy -auto-approve
