@@ -46,7 +46,7 @@ resource "helm_release" "flask_app" {
   chart      = "${path.module}/flask-app"
   namespace  = "default"
   values     = [
-    file("${path.module}/flask-app/values.yaml")
+    file("${path.module}/flask-app/values.yaml"),
     yamlencode({
       livenessProbe = {}
       readinessProbe = {}
