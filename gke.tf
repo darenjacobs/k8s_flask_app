@@ -26,7 +26,7 @@ provider "kubernetes" {
     args        = []
     command     = "gke-gcloud-auth-plugin"
   }
-  config_path = "~/.kube/config"  # Explicitly set the kubeconfig path
+  config_path = "~/.kube/config"
 }
 
 provider "helm" {
@@ -48,4 +48,22 @@ resource "helm_release" "flask_app" {
   values     = [
     file("${path.module}/flask-app/values.yaml")
   ]
+}
+
+resource "null_resource" "health_check" {
+  depends_on = [helm_release.flask_app]
+
+  provisioner "local-exec" {
+    command = <<EOT
+      # Retrieve the external IP address of the service
+      SERVICE_IP=$(kubectl get svc my-app-flask-app -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+      # Perform the health check
+      STATUS_CODE=$(curl -s -o /dev/null -w "%%{http_code}" http://${SERVICE_IP})
+      if [ "${STATUS_CODE}" -ne 200 ]; then
+        echo "ERROR: returned an unhealthy status code: ${STATUS_CODE}"
+        exit 1
+      fi
+    EOT
+    interpreter = ["/bin/bash", "-c"]
+  }
 }

@@ -1,4 +1,3 @@
-# flask-app/values.yaml
 replicaCount: 1
 
 image:
@@ -47,10 +46,3 @@ volumeMounts: []
 nodeSelector: {}
 tolerations: []
 affinity: {}
-
-nginx:
-  service:
-    type: LoadBalancer
-  ingress:
-    enabled: true
-    hostname: example.local
