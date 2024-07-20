@@ -114,12 +114,6 @@ jobs:
           if [[ "${var}" =~ "ubeconfig" ]]; then echo "***DELETING GKE CLUSTER***: my-cluster"; gcloud container clusters delete my-cluster --region us-central1 --quiet; fi
         shell: bash
 
-      # Helm
-      - name: Install Helm
-        shell: bash
-        run: |
-          curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-
       # Terraform
       - name: Create Credentials JSON file # Create Credentials file for Google provider
         run: |
@@ -175,4 +169,6 @@ jobs:
 
       - name: Terraform destroy
         id: destoy
-        run: terraform destroy -auto-approve
+        run: |
+          gcloud container clusters get-credentials my-cluster --region us-central1
+          terraform destroy -auto-approve
