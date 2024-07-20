@@ -5,10 +5,6 @@ image:
   pullPolicy: IfNotPresent
   tag: latest
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
 serviceAccount:
   create: true
   automount: true
@@ -19,11 +15,10 @@ podAnnotations: {}
 podLabels: {}
 
 podSecurityContext: {}
-
 securityContext: {}
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 80
 
 ingress:
@@ -38,10 +33,6 @@ ingress:
   tls: []
 
 resources: {}
-
-livenessProbe: {}
-readinessProbe: {}
-
 autoscaling:
   enabled: false
   minReplicas: 1
@@ -52,14 +43,5 @@ volumes: []
 volumeMounts: []
 
 nodeSelector: {}
-
 tolerations: []
-
 affinity: {}
-
-nginx:
-  service:
-    type: LoadBalancer
-  ingress:
-    enabled: true
-    hostname: example.local
