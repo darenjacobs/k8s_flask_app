@@ -49,3 +49,15 @@ resource "helm_release" "flask_app" {
     file("${path.module}/flask-app/values.yaml")
   ]
 }
+
+# Automated health check
+check "health_check" {
+  data "http" "my_app_service" {
+    url = "http://${helm_release.flask_app.status.load_balancer.ingress[0].ip}/"
+  }
+
+  assert {
+    condition     = data.http.my_app_service.status_code == 200
+    error_message = "ERROR: returned an unhealthy status code"
+  }
+}
