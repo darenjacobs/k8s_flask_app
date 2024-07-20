@@ -60,6 +60,8 @@ resource "helm_release" "flask_app" {
   ]
 }
 
+# Todo: fix this
+
 # # Automated health check
 # check "health_check" {
 #   data "http" "my_app_service" {
