@@ -39,6 +39,7 @@ provider "helm" {
       command     = "gke-gcloud-auth-plugin"
     }
   }
+  config_path = "~/.kube/config"  # Explicitly set the kubeconfig path
 }
 
 resource "helm_release" "flask_app" {

@@ -174,4 +174,5 @@ jobs:
         run: |
           gcloud container clusters get-credentials my-cluster --region us-central1 --project intense-vault-200013
           export KUBECONFIG=~/.kube/config
+          export KUBE_CONFIG_PATH=~/.kube/config
           terraform destroy -auto-approve
