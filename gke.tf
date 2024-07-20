@@ -40,6 +40,7 @@ provider "helm" {
   }
 }
 
+
 resource "helm_release" "flask_app" {
   name       = "my-app"
   chart      = "${path.module}/flask-app"
