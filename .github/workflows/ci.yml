@@ -167,11 +167,12 @@ jobs:
       - name: Application Online before destroy
         shell: bash
         run: |
-          sleep 120
+          sleep 10
 
       - name: Terraform destroy
         id: destoy
         run: |
           gcloud container clusters get-credentials my-cluster --region us-central1
           export KUBECONFIG=~/.kube/config
+          gcloud container clusters delete my-cluster --region us-central1
           terraform destroy -auto-approve
