@@ -26,7 +26,7 @@ provider "kubernetes" {
     args        = []
     command     = "gke-gcloud-auth-plugin"
   }
-  config_path = "~/.kube/config"  # Explicitly set the kubeconfig path
+  config_path = "~/.kube/config"
 }
 
 provider "helm" {
@@ -41,27 +41,6 @@ provider "helm" {
   }
 }
 
-# resource "helm_release" "flask_app" {
-#   name       = "my-app"
-#   chart      = "${path.module}/flask-app"
-#   namespace  = "default"
-#   values     = [
-#     file("${path.module}/flask-app/values.yaml")
-#   ]
-# }
-
-# # Automated health check
-# check "health_check" {
-#   data "http" "my_app_service" {
-#     url = "http://${helm_release.flask_app.status.0.load_balancer.0.ingress.0.ip}/"
-#   }
-#
-#   assert {
-#     condition     = data.http.my_app_service.status_code == 200
-#     error_message = "ERROR: returned an unhealthy status code"
-#   }
-# }
-
 resource "helm_release" "flask_app" {
   name       = "my-app"
   chart      = "${path.module}/flask-app"
@@ -69,6 +48,10 @@ resource "helm_release" "flask_app" {
   values     = [
     file("${path.module}/flask-app/values.yaml")
   ]
+}
+
+resource "null_resource" "health_check" {
+  depends_on = [helm_release.flask_app]
 
   provisioner "local-exec" {
     command = <<EOT
@@ -77,7 +60,7 @@ resource "helm_release" "flask_app" {
       # Perform the health check
       STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://${SERVICE_IP})
       if [ "${STATUS_CODE}" -ne 200 ]; then
-        echo "ERROR: returned an unhealthy status code"
+        echo "ERROR: returned an unhealthy status code: ${STATUS_CODE}"
         exit 1
       fi
     EOT
