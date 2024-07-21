@@ -8,8 +8,8 @@ Clone this Repository:
 git clone https://github.com/darenjacobs/k8s_flask_app.git
 ```
 
-TLDR:
-Edit flask-app/values.yaml and set your app repository name.
+TLDR:\
+Edit flask-app/values.yaml and set your app repository name.\
 The easiest way to deploy the Flask App is to [SET GITHUB ACTIONS SECRETS](#set-secrets) and commit to the branch.
 
 
